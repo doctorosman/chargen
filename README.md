@@ -3,15 +3,31 @@ Kimlikler üretmek için oluşturulan bir modül.
 
 ## Örnek Uygulama
 ```python
-from chargen import *
+from chargen import Date, Char
 
-text = "İsim: {}\nSoyisim: {}\nTCKN: {}\nDoğum Tarihi: {}".format(genFirstName(), genLastName(), genTCKN(), genDate(1960, 2010).format('dd.mm.yyyy'))
-print(text)
+people = [Char(), Char(), Char()]
+
+i = 1
+for person in people:
+    string = """
+KARAKTER {}
+-----------
+İsim: {}
+Soyisim: {}
+T. C. Kimlik Numarası: {}
+E-posta Adresi: {}
+Doğum Tarihi: {}
+İl: {}
+İlçe: {}
+"""
+    print(string.format(
+        i,
+        person.firstname,
+        person.lastname,
+        person.tckn,
+        person.email,
+        person.birthdate.format(),
+        person.province,
+        person.town
+    ))
 ```
-
-## Fonksiyonlar
-- genTCKN() : T. C. kimlik numarası üretir.
-- genFirstName() : İsim üretir.
-- genLastName() : Soyisim üretir.
-- genFullName() : İsim ve soyisim üretir.
-- genDate(minYear, maxYear) : Belirttiğiniz yıllar arasında tarih üretir. Date objesi döndürür.
