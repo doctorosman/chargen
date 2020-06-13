@@ -1,4 +1,4 @@
-import random, urllib.request
+import json, random, urllib.request
 
 # HELPER CLASSES
 
@@ -40,6 +40,14 @@ def putZeros(field):
         return "0" + str(field)
     else:
         return str(field)
+
+def getTowns(province):
+    with open('src/ilceler.json', encoding='utf8') as f:
+        array = json.loads(f.read())
+    
+    for prov in array:
+        if prov['name'] == province:
+            return prov['towns']
 
 # GENERATE FUNCTIONS
 
@@ -105,6 +113,42 @@ def genDate(minYear, maxYear):
 
     return Date(year, month, day)
 
-def genEmail():
-    # TODO
-    pass
+def genEmail(fname, lname):
+    for i, j in {'İ' : 'I', 'Ö' : 'O', 'Ş' : 'S', 'Ü' : 'U', 'Ç' : 'C', 'Ğ' : 'G'}.items():
+        fname = fname.replace(i, j)
+        lname = lname.replace(i, j)
+
+    fname = fname.lower()
+    lname = lname.lower()
+    
+    hosts = ['@gmail.com', '@hotmail.com', '@yandex.com', '@outlook.com']
+    pick = random.randint(0, 4)
+
+    if pick == 0:
+        email = fname + '_' + lname + random.choice(hosts)
+    elif pick == 1:
+        email = fname + lname + str(random.randint(0, 99)) + random.choice(hosts)
+    elif pick == 2:
+        email = fname + '.' + lname + str(random.randint(0, 9)) + random.choice(hosts)
+    elif pick == 3:
+        email = fname[0] + lname + str(random.randint(0, 9)) + random.choice(hosts)
+    else:
+        email = fname[0] + lname + random.choice(hosts)
+
+    return email
+
+def genProv():
+    # forked from turzifer.com
+    provs = ['Adana', 'Adıyaman', 'Afyon', 'Ağrı', 'Amasya', 'Ankara', 'Antalya', 'Artvin', 'Aydın', 'Balıkesir', 'Bilecik', 'Bingöl', 'Bitlis', 'Bolu', 'Burdur', 'Bursa', 'Çanakkale', 'Çankırı', 'Çorum', 'Denizli', 'Diyarbakır', 'Edirne', 'Elazığ', 'Erzincan', 'Erzurum', 'Eskişehir', 'Gaziantep', 'Giresun', 'Gümüşhane', 'Hakkari', 'Hatay', 'Isparta', 'İçel (Mersin)', 'İstanbul', 'İzmir', 'Kars', 'Kastamonu', 'Kayseri', 'Kırklareli', 'Kırşehir', 'Kocaeli', 'Konya', 'Kütahya', 'Malatya', 'Manisa', 'K.maraş', 'Mardin', 'Muğla', 'Muş', 'Nevşehir', 'Niğde', 'Ordu', 'Rize', 'Sakarya', 'Samsun', 'Siirt', 'Sinop', 'Sivas', 'Tekirdağ', 'Tokat', 'Trabzon', 'Tunceli', 'Şanlıurfa', 'Uşak', 'Van', 'Yozgat', 'Zonguldak', 'Aksaray', 'Bayburt', 'Karaman', 'Kırıkkale', 'Batman', 'Şırnak', 'Bartın', 'Ardahan', 'Iğdır', 'Yalova', 'Karabük', 'Kilis', 'Osmaniye', 'Düzce']
+    return random.choice(provs)
+
+def genTown(province):
+    # forked from github.com/armaganbayraktar01/il-ilce
+    return random.choice(getTowns(province))
+
+def genLoc():
+    prov = genProv()
+    town = genTown(prov)
+    
+    return [prov, town]
+
