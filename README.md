@@ -7,9 +7,7 @@ from chargen import Date, Char
 
 people = [Char(), Char(), Char()]
 
-i = 1
-for person in people:
-    string = """
+string = """
 KARAKTER {}
 -----------
 İsim: {}
@@ -20,6 +18,9 @@ Doğum Tarihi: {}
 İl: {}
 İlçe: {}
 """
+
+i = 1
+for person in people:
     print(string.format(
         i,
         person.firstname,
@@ -30,4 +31,5 @@ Doğum Tarihi: {}
         person.province,
         person.town
     ))
+    i += 1
 ```
