@@ -74,7 +74,10 @@ class Char:
     def genTCKN():
         # FIRST 9 DIGITS
         first9 = ""
-        for _ in range(9):
+        for i in range(9):
+          if i == 0:
+            first9 += str(random.randint(1, 9))
+          else:
             first9 += str(random.randint(0, 9))
 
         # CONTROL DIGITS
